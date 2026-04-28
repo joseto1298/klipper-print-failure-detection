@@ -1105,49 +1105,28 @@ dialog#settings-modal {
 }
 
 /* Settings Layout */
-#settings-page .modal-body {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto auto minmax(0, 1fr);
+#settings-page .modal-body.settings-grid {
+    display: flex;
+    flex-direction: column;
     gap: 8px;
     padding: 12px 14px;
     padding-bottom: calc(12px + var(--settings-footer-height));
     flex: 1 1 auto;
-    align-content: start;
     min-height: 0;
-    align-items: flex-start;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-/* Grid areas for settings groups */
-#settings-page .modal-body .page-header { grid-column: 1 / 3; grid-row: 1; }
-#settings-page .modal-body .setting-group:nth-child(2) { grid-column: 1 / 3; grid-row: 2; }
-#settings-page .modal-body .setting-group:nth-child(3) {
-    grid-column: 1;
-    grid-row: 3;
-    height: auto;
-    min-height: 0;
-}
-#settings-page .modal-body .setting-group:nth-child(4) {
-    grid-column: 2;
-    grid-row: 3;
-    height: auto;
-    min-height: 0;
-}
-#settings-page .modal-body .setting-group:nth-child(5) {
-    grid-column: 1 / 3;
-    grid-row: 4;
-}
-
 /* Setting Groups & Rows */
 .setting-group {
-    flex: 1 1 240px;
+    flex: 0 0 auto;
     border: 1px solid var(--border-subtle);
     border-radius: 8px;
     padding: 8px;
     background: var(--bg-elevated);
     min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 .setting-group h4 {
     margin: 0 0 8px 0;
@@ -1156,21 +1135,24 @@ dialog#settings-modal {
 }
 .setting-row {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 6px;
     margin-bottom: 14px;
     font-size: 0.85rem;
     min-width: 0;
 }
 .setting-row label {
-    flex: 0 0 120px;
+    flex: none;
+    width: 100%;
     color: var(--text-muted);
     min-width: 0;
 }
 .setting-row input,
 .setting-row select {
-    flex: 1;
+    flex: none;
+    width: 100%;
     min-width: 0;
     padding: 4px 6px;
     border-radius: 4px;
@@ -1180,13 +1162,13 @@ dialog#settings-modal {
     font-size: 0.85rem;
 }
 .setting-row-single {
-    justify-content: flex-start;
+    align-items: stretch;
 }
 .setting-row-single select {
     width: 100%;
 }
 #settings-modal .setting-row .toggle-switch {
-    flex: 1;
+    width: 100%;
     justify-content: flex-start;
 }
 .collapsible {
@@ -1881,44 +1863,6 @@ body.theme-preview-active #theme-preview-dock { pointer-events: auto; }
     dialog#settings-modal {
         width: min(94vw, 860px);
     }
-
-    #settings-page .modal-body {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-    }
-
-    #settings-page .modal-body .page-header,
-    #settings-page .modal-body .setting-group:nth-child(2),
-    #settings-page .modal-body .setting-group:nth-child(3),
-    #settings-page .modal-body .setting-group:nth-child(4) {
-        grid-column: 1 / -1;
-        grid-row: auto;
-        height: auto;
-    }
-    #settings-page .modal-body .setting-group:nth-child(5) {
-        grid-column: 1 / -1;
-        grid-row: auto;
-    }
-
-    .setting-row {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .setting-row label {
-        flex: none;
-        width: 100%;
-    }
-
-    .setting-row input,
-    .setting-row select,
-    #settings-modal .setting-row .toggle-switch {
-        width: 100%;
-    }
-
-    #settings-modal .setting-row .toggle-switch {
-        justify-content: space-between;
-    }
 }
 
 /* MOBILE SETTINGS */
@@ -1973,22 +1917,6 @@ body.theme-preview-active #theme-preview-dock { pointer-events: auto; }
     }
     
     /* Settings Modal Mobile Layout */
-    #settings-page .modal-body {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-    #settings-page .modal-body .setting-group {
-        grid-column: 1 !important;
-        grid-row: auto !important;
-        width: 100%;
-        box-sizing: border-box;
-        align-self: auto !important;
-        height: auto !important;
-        overflow-y: visible !important;
-    }
     dialog#settings-modal {
         max-height: 90vh;
         overflow: hidden;
