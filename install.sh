@@ -15,7 +15,7 @@ echo "Installation Directory: $PLUGIN_DIR"
 # --- 2. Install System Dependencies ---
 echo "Installing system libraries..."
 # libatlas-base-dev is required for numpy/tflite on Pi
-apt-get update && apt-get install -y python3-opencv python3-venv libopenjp2-7 libatlas-base-dev
+sudo apt-get update && sudo apt-get install -y python3-opencv python3-venv libopenjp2-7 libopenblas-dev
 
 # --- 3. Create Virtual Environment ---
 if [ ! -d "$PLUGIN_DIR/venv" ]; then
