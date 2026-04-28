@@ -439,7 +439,7 @@
                     </div>
 
                     <!-- CAMERA SETUP -->
-                    <div class="setting-group">
+                    <div class="setting-group camera-setup-group" id="camera-setup-group">
                         <h4 data-i18n="settings.cameraSetup">Camera Setup</h4>
 
                         <div class="setting-row">
@@ -450,31 +450,35 @@
                             </select>
                         </div>
 
-                        <div class="setting-row">
-                            <label data-i18n="settings.cam1Url">Cam 1 URL:</label>
-                            <input type="text" id="cam1_url_input">
-                        </div>
+                        <div class="camera-setup-columns">
+                            <div class="camera-setup-column">
+                                <div class="setting-row">
+                                    <label data-i18n="settings.cam1Url">Cam 1 URL:</label>
+                                    <input type="text" id="cam1_url_input">
+                                </div>
 
-                        <div class="setting-row">
-                            <label data-i18n="settings.cam1AspectRatio">Cam 1 Aspect Ratio:</label>
-                            <select id="cam1_aspect_ratio">
-                                <option value="16:9">16:9</option>
-                                <option value="4:3">4:3</option>
-                            </select>
-                        </div>
-
-                        <div id="cam2-settings" class="collapsible">
-                            <div class="setting-row" id="cam2-settings-row">
-                                <label data-i18n="settings.cam2Url">Cam 2 URL:</label>
-                                <input type="text" id="cam2_url_input">
+                                <div class="setting-row">
+                                    <label data-i18n="settings.cam1AspectRatio">Cam 1 Aspect Ratio:</label>
+                                    <select id="cam1_aspect_ratio">
+                                        <option value="16:9">16:9</option>
+                                        <option value="4:3">4:3</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="setting-row" id="cam2-aspect-row">
-                                <label data-i18n="settings.cam2AspectRatio">Cam 2 Aspect Ratio:</label>
-                                <select id="cam2_aspect_ratio">
-                                    <option value="16:9">16:9</option>
-                                    <option value="4:3">4:3</option>
-                                </select>
+                            <div id="cam2-settings" class="camera-setup-column collapsible">
+                                <div class="setting-row" id="cam2-settings-row">
+                                    <label data-i18n="settings.cam2Url">Cam 2 URL:</label>
+                                    <input type="text" id="cam2_url_input">
+                                </div>
+
+                                <div class="setting-row" id="cam2-aspect-row">
+                                    <label data-i18n="settings.cam2AspectRatio">Cam 2 Aspect Ratio:</label>
+                                    <select id="cam2_aspect_ratio">
+                                        <option value="16:9">16:9</option>
+                                        <option value="4:3">4:3</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -532,7 +536,7 @@
                             </select>
                         </div>
                         
-                        <div class="setting-row">
+                        <div class="setting-row toggle-row">
                             <label data-i18n="settings.detectionSummary">Detection Summary:</label>
 
                             <div class="toggle-switch toggle-only">
@@ -546,7 +550,7 @@
                             <div class="help-tooltip-text" data-i18n="settings.detectionSummaryHelp">Sends a summary of detections and failures to the printer console after you stop monitoring or when the print ends. Only enabled categories and cameras are included.</div>
                         </div>
 
-                        <div class="setting-row">
+                        <div class="setting-row toggle-row">
                             <label data-i18n="settings.sendMobilerakerNotification">Send Mobileraker Notification:</label>
 
                             <div class="toggle-switch toggle-only">

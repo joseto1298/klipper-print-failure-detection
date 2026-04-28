@@ -1110,7 +1110,7 @@ dialog#settings-modal {
     flex-direction: column;
     gap: 8px;
     padding: 12px 14px;
-    padding-bottom: calc(12px + var(--settings-footer-height));
+    padding-bottom: 20px;
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
@@ -1152,7 +1152,6 @@ dialog#settings-modal {
 .setting-row input,
 .setting-row select {
     flex: none;
-    width: 100%;
     min-width: 0;
     padding: 4px 6px;
     border-radius: 4px;
@@ -1161,6 +1160,7 @@ dialog#settings-modal {
     color: var(--text-main);
     font-size: 0.85rem;
 }
+
 .setting-row-single {
     align-items: stretch;
 }
@@ -1201,8 +1201,9 @@ dialog#settings-modal {
 #theme-page .modal-footer,
 #settings-page .modal-footer,
 #ai-page .modal-footer {
-    height: var(--settings-footer-height);
-    padding: 14px 18px;
+    height: auto;
+    min-height: calc(var(--settings-footer-height) + 12px);
+    padding: 16px 18px 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1211,12 +1212,14 @@ dialog#settings-modal {
     z-index: 10;
     background: var(--bg-card);
     box-sizing: border-box;
+    margin-top: 10px;
 }
 .settings-footer-left,
 .settings-footer-right {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin: 0;
 }
 .save-status {
     font-size: 0.85em;
@@ -1357,6 +1360,10 @@ dialog#settings-modal {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.ai-cat-btn-container > .secondary-btn {
+    margin-bottom: 10px;
 }
 
 @media (max-width: 800px) {

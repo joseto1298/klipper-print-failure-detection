@@ -824,10 +824,16 @@ function applyLayout(count) {
 
 function updateCam2SettingsVisibility(count) {
   const wrap = document.getElementById("cam2-settings");
+  const cameraSetup = document.getElementById("camera-setup-group");
   if (!wrap) return;
 
-  if (parseInt(count) === 1) wrap.classList.add("hidden");
-  else wrap.classList.remove("hidden");
+  if (parseInt(count) === 1) {
+    wrap.classList.add("hidden");
+    if (cameraSetup) cameraSetup.classList.add("single-camera");
+  } else {
+    wrap.classList.remove("hidden");
+    if (cameraSetup) cameraSetup.classList.remove("single-camera");
+  }
 }
 
 function updateThresholdVisibility(count) {
