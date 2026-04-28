@@ -112,6 +112,7 @@ default_config = {
     "cam2_aspect_ratio": "4:3",
     "notify_mobileraker": False,
     "send_summary": True,
+    "language": "en",
 
     # UI Theme
     "ui_theme": "dark",
@@ -185,6 +186,8 @@ if os.path.exists(SETTINGS_FILE):
                 config["ui_theme"] = default_config.get("ui_theme", "dark")
             if "custom_theme" not in config:
                 config["custom_theme"] = default_config.get("custom_theme", {})
+            if "language" not in config:
+                config["language"] = default_config.get("language", "en")
     except Exception:
         pass
 

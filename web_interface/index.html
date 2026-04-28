@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>Failure Detection Dashboard</title>
+    <title data-i18n="app.title">Failure Detection Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h2>Failure Detection Dashboard</h2>
+            <h2 data-i18n="app.header">Failure Detection Dashboard</h2>
             <div id="status-indicator" class="status-badge">
-                <span id="status-text">WAITING</span>
+                <span id="status-text" data-i18n="status.waiting">WAITING</span>
                 <div id="status-tooltip" class="status-tooltip hidden"></div>
             </div>
         </header>
@@ -22,17 +22,17 @@
 
                 <!-- CAMERA 1 -->
                 <div class="camera-card" id="card-cam1">
-                    <div class="cam-header"><h3>Primary Camera</h3></div>
+                    <div class="cam-header"><h3 data-i18n="camera.primary">Primary Camera</h3></div>
 
                     <div class="camera-viewport" id="cam1-container">
                         <img id="cam1-img" class="live-feed" alt="">
-                        <div class="disabled-overlay" id="cam1-overlay"><span>DISABLED</span></div>
+                        <div class="disabled-overlay" id="cam1-overlay"><span data-i18n="camera.disabled">DISABLED</span></div>
                     </div>
                     
                     <div class="cam-stats" id="cam1-stats">
                         <div class="cam-stats-inner">
-                            <div class="cam-stat-row">Detections: <span class="detect-count" id="cam1-detect-count">0</span></div>
-                            <div class="cam-stat-row">Failures: <span class="fail-count" id="cam1-fail-count">0</span></div>
+                            <div class="cam-stat-row"><span data-i18n="camera.detections">Detections:</span> <span class="detect-count" id="cam1-detect-count">0</span></div>
+                            <div class="cam-stat-row"><span data-i18n="camera.failures">Failures:</span> <span class="fail-count" id="cam1-fail-count">0</span></div>
                         </div>
                     </div>
                     
@@ -40,28 +40,28 @@
                         <label class="toggle-switch">
                             <input type="checkbox" id="cam1-toggle">
                             <span class="slider"></span>
-                            <span class="label-text">Active</span>
+                            <span class="label-text" data-i18n="camera.active">Active</span>
                         </label>
                     </div>
 
                     <div class="mask-tools">
-                        <button id="cam1-clear-masks" class="secondary-btn">Clear Masks</button>
+                        <button id="cam1-clear-masks" class="secondary-btn" data-i18n="camera.clearMasks">Clear Masks</button>
                     </div>
                 </div>
 
                 <!-- CAMERA 2 -->
                 <div class="camera-card" id="card-cam2">
-                    <div class="cam-header"><h3>Secondary Camera</h3></div>
+                    <div class="cam-header"><h3 data-i18n="camera.secondary">Secondary Camera</h3></div>
 
                     <div class="camera-viewport" id="cam2-container">
                         <img id="cam2-img" class="live-feed" alt="">
-                        <div class="disabled-overlay" id="cam2-overlay"><span>DISABLED</span></div>
+                        <div class="disabled-overlay" id="cam2-overlay"><span data-i18n="camera.disabled">DISABLED</span></div>
                     </div>
 
                     <div class="cam-stats" id="cam2-stats">
                         <div class="cam-stats-inner">
-                            <div class="cam-stat-row">Detections: <span class="detect-count" id="cam2-detect-count">0</span></div>
-                            <div class="cam-stat-row">Failures: <span class="fail-count" id="cam2-fail-count">0</span></div>
+                            <div class="cam-stat-row"><span data-i18n="camera.detections">Detections:</span> <span class="detect-count" id="cam2-detect-count">0</span></div>
+                            <div class="cam-stat-row"><span data-i18n="camera.failures">Failures:</span> <span class="fail-count" id="cam2-fail-count">0</span></div>
                         </div>
                     </div>
                     
@@ -69,12 +69,12 @@
                         <label class="toggle-switch">
                             <input type="checkbox" id="cam2-toggle">
                             <span class="slider"></span>
-                            <span class="label-text">Active</span>
+                            <span class="label-text" data-i18n="camera.active">Active</span>
                         </label>
                     </div>
 
                     <div class="mask-tools">
-                        <button id="cam2-clear-masks" class="secondary-btn">Clear Masks</button>
+                        <button id="cam2-clear-masks" class="secondary-btn" data-i18n="camera.clearMasks">Clear Masks</button>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@
 
             <!-- CENTER MASK INFO -->
             <div id="mask-help-center">
-                <p class="help-box">
+                <p class="help-box" data-i18n="help.maskZones">
                     Click and drag on the camera to add mask zones. Right-click a zone to remove it. Click 'Visualize Mask' to show the mask overlay.
                 </p>
             </div>
@@ -91,11 +91,11 @@
             <div class="health-section">
                 <div class="health-header">
                     <span>
-                        Failure Probability:
+                        <span data-i18n="health.failureProbability">Failure Probability:</span>
                         <span id="ssim-val">--%</span>
                         <span id="confidence-trend" class="confidence-trend">→</span>
                     </span>
-                    <span>Retries: <span id="retry-val">0/0</span></span>
+                    <span><span data-i18n="health.retries">Retries:</span> <span id="retry-val">0/0</span></span>
                 </div>
                 <div class="progress-track">
                     <span id="monitoring-label" class="monitoring-label"></span>
@@ -106,18 +106,18 @@
             <!-- CONTROLS -->
             <div class="controls">
                 <div class="controls-left">
-                    <button id="mask-toggle-btn" class="secondary-btn">Visualize Mask</button>
+                    <button id="mask-toggle-btn" class="secondary-btn" data-i18n="monitoring.visualizeMask">Visualize Mask</button>
 
-                    <button id="force-start-btn" class="primary-btn btn-success">
+                    <button id="force-start-btn" class="primary-btn btn-success" data-i18n="buttons.startMonitoring">
                         ▶ Start Monitoring
                     </button>
 
-                    <button id="open-settings-btn" class="secondary-btn">⚙️ Settings</button>
+                    <button id="open-settings-btn" class="secondary-btn" data-i18n="buttons.settings">⚙️ Settings</button>
                 </div>
 
                 <div class="controls-right">
-                    <button id="open-history-btn" class="secondary-btn">History</button>
-                    <button id="open-logs-btn" class="secondary-btn">Logs ▾</button>
+                    <button id="open-history-btn" class="secondary-btn" data-i18n="buttons.history">History</button>
+                    <button id="open-logs-btn" class="secondary-btn" data-i18n="buttons.logs">Logs ▾</button>
                 </div>
             </div>
 
@@ -128,7 +128,7 @@
     <div id="settings-overlay"></div>
     <dialog id="settings-modal">
         <div class="modal-header">
-            <h3>Configuration</h3>
+            <h3 data-i18n="settings.configuration">Configuration</h3>
 
             <div class="modal-header-right">
                 <div id="settings-unsaved-warning" class="save-status error"></div>
@@ -142,15 +142,15 @@
             <div id="theme-page">
                 <div class="modal-body theme-page-body">
                     <div class="page-header">
-                        <h4>Dashboard Theme</h4>
-                        <span id="theme-unsaved-warning" class="inline-unsaved-warning" style="display: none;">⚠ Unsaved changes</span>
+                        <h4 data-i18n="theme.dashboard">Dashboard Theme</h4>
+                        <span id="theme-unsaved-warning" class="inline-unsaved-warning" style="display: none;" data-i18n="status.unsavedChanges">⚠ Unsaved changes</span>
                     </div>
 
                     <div class="theme-modal-body">
                         <div class="theme-card" data-theme-choice="dark">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="dark" />
-                                <span>Dark (Default)</span>
+                                <span data-i18n="theme.darkDefault">Dark (Default)</span>
                             </div>
                             <div class="theme-swatch-row">
                                 <div class="theme-swatch" style="background: #0d0d0d;"></div>
@@ -165,7 +165,7 @@
                         <div class="theme-card" data-theme-choice="light">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="light" />
-                                <span>Light</span>
+                                <span data-i18n="theme.light">Light</span>
                             </div>
                             <div class="theme-swatch-row">
                                 <div class="theme-swatch" style="background: #f4f6f9;"></div>
@@ -180,7 +180,7 @@
                         <div class="theme-card" data-theme-choice="midnight">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="midnight" />
-                                <span>Midnight</span>
+                                <span data-i18n="theme.midnight">Midnight</span>
                             </div>
                             <div class="theme-swatch-row">
                                 <div class="theme-swatch" style="background: #0b0716;"></div>
@@ -195,7 +195,7 @@
                         <div class="theme-card" data-theme-choice="crimson">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="crimson" />
-                                <span>Crimson</span>
+                                <span data-i18n="theme.crimson">Crimson</span>
                             </div>
                             <div class="theme-swatch-row">
                                 <div class="theme-swatch" style="background: #3a0f0a;"></div>
@@ -210,7 +210,7 @@
                         <div class="theme-card" data-theme-choice="mint">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="mint" />
-                                <span>Mint</span>
+                                <span data-i18n="theme.mint">Mint</span>
                             </div>
                             <div class="theme-swatch-row">
                                 <div class="theme-swatch" style="background: #9dddd3;"></div>
@@ -225,7 +225,7 @@
                         <div class="theme-card" data-theme-choice="forest">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="forest" />
-                                <span>Forest</span>
+                                <span data-i18n="theme.forest">Forest</span>
                             </div>
                             <div class="theme-swatch-row">
                                 <div class="theme-swatch" style="background: #07160b;"></div>
@@ -240,7 +240,7 @@
                         <div class="theme-card" data-theme-choice="aurora">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="aurora" />
-                                <span>Aurora</span>
+                                <span data-i18n="theme.aurora">Aurora</span>
                             </div>
                             <div class="theme-swatch-row">
                                 <div class="theme-swatch" style="background: #02050c;"></div>
@@ -255,7 +255,7 @@
                         <div class="theme-card" data-theme-choice="voron">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="voron" />
-                                <span>Voron</span>
+                                <span data-i18n="theme.voron">Voron</span>
                             </div>
                             <div class="theme-swatch-row">
                                 <div class="theme-swatch" style="background: #0b0c10;"></div>
@@ -270,36 +270,36 @@
                         <div class="custom-theme-panel">
                             <div class="theme-card-title">
                                 <input type="radio" name="theme-choice" value="custom" />
-                                <span>Custom</span>
-                                <span style="color: var(--text-muted); font-weight: 500;">(advanced)</span>
+                                <span data-i18n="theme.custom">Custom</span>
+                                <span style="color: var(--text-muted); font-weight: 500;" data-i18n="theme.advanced">(advanced)</span>
                             </div>
 
                             <div class="custom-sections">
                                 <!-- Backgrounds Section -->
                                 <div class="custom-section">
                                     <div class="custom-section-header">
-                                        <span>Backgrounds</span>
+                                        <span data-i18n="theme.backgrounds">Backgrounds</span>
                                         <button type="button" class="section-toggle" data-target="bg-section">▶</button>
                                     </div>
                                     <div class="custom-section-body collapsed" id="bg-section">
                                         <div class="custom-field">
-                                            <span>Main Background</span>
+                                            <span data-i18n="theme.mainBackground">Main Background</span>
                                             <input id="custom-bg-main" type="color" value="#0d0d0d" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Card Background</span>
+                                            <span data-i18n="theme.cardBackground">Card Background</span>
                                             <input id="custom-bg-card" type="color" value="#1b1b1b" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Panel Background</span>
+                                            <span data-i18n="theme.panelBackground">Panel Background</span>
                                             <input id="custom-bg-panel" type="color" value="#1a1a1a" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Elevated Background</span>
+                                            <span data-i18n="theme.elevatedBackground">Elevated Background</span>
                                             <input id="custom-bg-elevated" type="color" value="#181818" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Input Background</span>
+                                            <span data-i18n="theme.inputBackground">Input Background</span>
                                             <input id="custom-bg-input" type="color" value="#111111" />
                                         </div>
                                     </div>
@@ -308,32 +308,32 @@
                                 <!-- Text Section -->
                                 <div class="custom-section">
                                     <div class="custom-section-header">
-                                        <span>Text Colors</span>
+                                        <span data-i18n="theme.textColors">Text Colors</span>
                                         <button type="button" class="section-toggle" data-target="text-section">▶</button>
                                     </div>
                                     <div class="custom-section-body collapsed" id="text-section">
                                         <div class="custom-field">
-                                            <span>Main Text</span>
+                                            <span data-i18n="theme.mainText">Main Text</span>
                                             <input id="custom-text-main" type="color" value="#f5f5f5" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Muted Text</span>
+                                            <span data-i18n="theme.mutedText">Muted Text</span>
                                             <input id="custom-text-muted" type="color" value="#aaaaaa" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Soft Text</span>
+                                            <span data-i18n="theme.softText">Soft Text</span>
                                             <input id="custom-text-soft" type="color" value="#bbbbbb" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Text (Inverse/on accent)</span>
+                                            <span data-i18n="theme.inverseText">Text (Inverse/on accent)</span>
                                             <input id="custom-text-inverse" type="color" value="#111111" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Primary Button Text</span>
+                                            <span data-i18n="theme.primaryButtonText">Primary Button Text</span>
                                             <input id="custom-btn-primary-text" type="color" value="#f5f5f5" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Secondary Button Text</span>
+                                            <span data-i18n="theme.secondaryButtonText">Secondary Button Text</span>
                                             <input id="custom-btn-secondary-text" type="color" value="#f5f5f5" />
                                         </div>
                                     </div>
@@ -342,20 +342,20 @@
                                 <!-- Accents Section -->
                                 <div class="custom-section">
                                     <div class="custom-section-header">
-                                        <span>Accent & UI</span>
+                                        <span data-i18n="theme.accentUi">Accent & UI</span>
                                         <button type="button" class="section-toggle" data-target="accent-section">▶</button>
                                     </div>
                                     <div class="custom-section-body collapsed" id="accent-section">
                                         <div class="custom-field">
-                                            <span>Primary Accent</span>
+                                            <span data-i18n="theme.primaryAccent">Primary Accent</span>
                                             <input id="custom-accent" type="color" value="#2196F3" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Accent (Soft)</span>
+                                            <span data-i18n="theme.accentSoft">Accent (Soft)</span>
                                             <input id="custom-accent-soft" type="color" value="#64b5f6" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Mask Color</span>
+                                            <span data-i18n="theme.maskColor">Mask Color</span>
                                             <input id="custom-mask" type="color" value="#ff00ff" />
                                         </div>
                                     </div>
@@ -364,20 +364,20 @@
                                 <!-- Status Colors Section -->
                                 <div class="custom-section">
                                     <div class="custom-section-header">
-                                        <span>Status Colors</span>
+                                        <span data-i18n="theme.statuses">Status Colors</span>
                                         <button type="button" class="section-toggle" data-target="status-section">▶</button>
                                     </div>
                                     <div class="custom-section-body collapsed" id="status-section">
                                         <div class="custom-field">
-                                            <span>Success</span>
+                                            <span data-i18n="theme.success">Success</span>
                                             <input id="custom-success" type="color" value="#43a047" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Warning</span>
+                                            <span data-i18n="theme.warning">Warning</span>
                                             <input id="custom-warning" type="color" value="#fbc02d" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Danger</span>
+                                            <span data-i18n="theme.danger">Danger</span>
                                             <input id="custom-danger" type="color" value="#e53935" />
                                         </div>
                                     </div>
@@ -386,16 +386,16 @@
                                 <!-- Borders Section -->
                                 <div class="custom-section">
                                     <div class="custom-section-header">
-                                        <span>Borders</span>
+                                        <span data-i18n="theme.borders">Borders</span>
                                         <button type="button" class="section-toggle" data-target="border-section">▶</button>
                                     </div>
                                     <div class="custom-section-body collapsed" id="border-section">
                                         <div class="custom-field">
-                                            <span>Subtle Border</span>
+                                            <span data-i18n="theme.borderSubtle">Subtle Border</span>
                                             <input id="custom-border-subtle" type="color" value="#333333" />
                                         </div>
                                         <div class="custom-field">
-                                            <span>Strong Border</span>
+                                            <span data-i18n="theme.borderStrong">Strong Border</span>
                                             <input id="custom-border-strong" type="color" value="#555555" />
                                         </div>
                                     </div>
@@ -407,13 +407,13 @@
 
                 <div class="modal-footer theme-footer">
                     <div class="theme-footer-left">
-                        <button id="back-theme-btn" class="secondary-btn">Back</button>
-                        <button id="preview-theme-btn" class="secondary-btn">👁 Preview</button>
+                        <button id="back-theme-btn" class="secondary-btn" data-i18n="buttons.back">Back</button>
+                        <button id="preview-theme-btn" class="secondary-btn" data-i18n="buttons.preview">👁 Preview</button>
                     </div>
 
                     <div class="theme-footer-right">
                         <div id="theme-save-status" class="save-status" aria-live="polite"></div>
-                        <button id="save-theme-btn" class="primary-btn">Save Theme</button>
+                        <button id="save-theme-btn" class="primary-btn" data-i18n="buttons.saveTheme">Save Theme</button>
                     </div>
                 </div>
             </div>
@@ -422,29 +422,37 @@
             <div id="settings-page">
                 <div class="modal-body settings-grid">
                     <div class="page-header">
-                        <h4>General Settings</h4>
-                        <span id="settings-page-unsaved-warning" class="inline-unsaved-warning" style="display: none;">⚠ Unsaved changes</span>
+                        <h4 data-i18n="settings.general">General Settings</h4>
+                        <span id="settings-page-unsaved-warning" class="inline-unsaved-warning" style="display: none;" data-i18n="status.unsavedChanges">⚠ Unsaved changes</span>
                     </div>
 
                     <!-- CAMERA SETUP -->
                     <div class="setting-group">
-                        <h4>Camera Setup</h4>
+                        <h4 data-i18n="settings.cameraSetup">Camera Setup</h4>
 
                         <div class="setting-row">
-                            <label>Camera Count:</label>
-                            <select id="camera_count">
-                                <option value="1">1 Camera</option>
-                                <option value="2">2 Cameras</option>
+                            <label for="language" data-i18n="settings.language">Language:</label>
+                            <select id="language">
+                                <option value="en" data-i18n="language.english">English</option>
+                                <option value="es" data-i18n="language.spanish">Español</option>
                             </select>
                         </div>
 
                         <div class="setting-row">
-                            <label>Cam 1 URL:</label>
+                            <label data-i18n="settings.cameraCount">Camera Count:</label>
+                            <select id="camera_count">
+                                <option value="1" data-i18n="camera.count1">1 Camera</option>
+                                <option value="2" data-i18n="camera.count2">2 Cameras</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-row">
+                            <label data-i18n="settings.cam1Url">Cam 1 URL:</label>
                             <input type="text" id="cam1_url_input">
                         </div>
 
                         <div class="setting-row">
-                            <label>Cam 1 Aspect Ratio:</label>
+                            <label data-i18n="settings.cam1AspectRatio">Cam 1 Aspect Ratio:</label>
                             <select id="cam1_aspect_ratio">
                                 <option value="16:9">16:9</option>
                                 <option value="4:3">4:3</option>
@@ -453,12 +461,12 @@
 
                         <div id="cam2-settings" class="collapsible">
                             <div class="setting-row" id="cam2-settings-row">
-                                <label>Cam 2 URL:</label>
+                                <label data-i18n="settings.cam2Url">Cam 2 URL:</label>
                                 <input type="text" id="cam2_url_input">
                             </div>
 
                             <div class="setting-row" id="cam2-aspect-row">
-                                <label>Cam 2 Aspect Ratio:</label>
+                                <label data-i18n="settings.cam2AspectRatio">Cam 2 Aspect Ratio:</label>
                                 <select id="cam2_aspect_ratio">
                                     <option value="16:9">16:9</option>
                                     <option value="4:3">4:3</option>
@@ -467,67 +475,61 @@
                         </div>
 
                         <div class="setting-row">
-                            <label>Moonraker URL:</label>
+                            <label data-i18n="settings.moonrakerUrl">Moonraker URL:</label>
                             <input type="text" id="moonraker_url">
                         </div>
                     </div>
 
                     <!-- FAILURE RESPONSE -->
                     <div class="setting-group">
-                        <h4>Failure Response</h4>
+                        <h4 data-i18n="settings.failureResponse">Failure Response</h4>
 
                         <div class="setting-row">
-                            <label>Check Interval (ms):</label>
+                            <label data-i18n="settings.checkInterval">Check Interval (ms):</label>
                             <input type="number" id="check_interval" min="100" step="100">
                         </div>
 
                         <div class="help-tooltip">
                             <span class="help-icon">?</span>
-                            <div class="help-tooltip-text">
-                                How often printer and camera state are checked. Lower values update faster but use more CPU.
-                            </div>
+                            <div class="help-tooltip-text" data-i18n="settings.checkIntervalHelp">How often printer and camera state are checked. Lower values update faster but use more CPU.</div>
                         </div>
 
                         <div class="setting-row">
-                            <label for="infer_every_n_loops">AI Inference Rate:</label>
+                            <label for="infer_every_n_loops" data-i18n="settings.aiInferenceRate">AI Inference Rate:</label>
                             <select id="infer_every_n_loops">
-                                <option value="1">Every frame (max accuracy)</option>
-                                <option value="2">Every 2 frames (recommended)</option>
-                                <option value="3">Every 3 frames (high performance)</option>
-                                <option value="4">Every 4 frames (higher performance)</option>
+                                <option value="1" data-i18n="inference.everyFrame">Every frame (max accuracy)</option>
+                                <option value="2" data-i18n="inference.every2Frames">Every 2 frames (recommended)</option>
+                                <option value="3" data-i18n="inference.every3Frames">Every 3 frames (high performance)</option>
+                                <option value="4" data-i18n="inference.every4Frames">Every 4 frames (higher performance)</option>
                             </select>
                         </div>
 
                         <div class="help-tooltip">
                             <span class="help-icon">?</span>
-                            <div class="help-tooltip-text">
-                                Runs AI less often to reduce CPU load but will slightly delay detection. "frames" = Check Interval.
-                            </div>
+                            <div class="help-tooltip-text" data-i18n="settings.aiInferenceRateHelp">Runs AI less often to reduce CPU load but will slightly delay detection. "frames" = Check Interval.</div>
                         </div>
                         
                         <div class="setting-row">
-                            <label>Max Retries:</label>
+                            <label data-i18n="settings.maxRetries">Max Retries:</label>
                             <input type="number" id="consecutive_failures">
                         </div>
 
                         <div class="help-tooltip">
                             <span class="help-icon">?</span>
-                            <div class="help-tooltip-text">
-                                Number of consecutive failures detected before action is taken.
-                            </div>
+                            <div class="help-tooltip-text" data-i18n="settings.maxRetriesHelp">Number of consecutive failures detected before action is taken.</div>
                         </div>
 
                         <div class="setting-row">
-                            <label>Failure Action:</label>
+                            <label data-i18n="settings.failureAction">Failure Action:</label>
                             <select id="on_failure">
-                                <option value="nothing">Warning Only</option>
-                                <option value="pause">Pause Print</option>
-                                <option value="cancel">Cancel Print</option>
+                                <option value="nothing" data-i18n="failureAction.warningOnly">Warning Only</option>
+                                <option value="pause" data-i18n="failureAction.pausePrint">Pause Print</option>
+                                <option value="cancel" data-i18n="failureAction.cancelPrint">Cancel Print</option>
                             </select>
                         </div>
                         
                         <div class="setting-row">
-                            <label>Detection Summary:</label>
+                            <label data-i18n="settings.detectionSummary">Detection Summary:</label>
 
                             <div class="toggle-switch toggle-only">
                                 <input type="checkbox" id="send_summary">
@@ -537,15 +539,11 @@
 
                         <div class="help-tooltip">
                             <span class="help-icon">?</span>
-                            <div class="help-tooltip-text">
-                                Sends a summary of detections and failures to the printer console after you stop monitoring or when the print ends.
-                                <br>
-                                (Only enabled categories and cameras included)
-                            </div>
+                            <div class="help-tooltip-text" data-i18n="settings.detectionSummaryHelp">Sends a summary of detections and failures to the printer console after you stop monitoring or when the print ends. Only enabled categories and cameras are included.</div>
                         </div>
 
                         <div class="setting-row">
-                            <label>Send Mobileraker Notification:</label>
+                            <label data-i18n="settings.sendMobilerakerNotification">Send Mobileraker Notification:</label>
 
                             <div class="toggle-switch toggle-only">
                                 <input type="checkbox" id="notify_mobileraker">
@@ -555,20 +553,16 @@
 
                         <div class="help-tooltip">
                             <span class="help-icon">?</span>
-                            <div class="help-tooltip-text help-tooltip-bottom">
-                                Sends a Mobileraker push notification when a failure is triggered.
-                                <br>
-                                ⚠️ Requires Mobileraker and MR_NOTIFY macro to be installed/setup.
-                            </div>
+                            <div class="help-tooltip-text help-tooltip-bottom" data-i18n="settings.mobilerakerHelp">Sends a Mobileraker push notification when a failure is triggered. Requires Mobileraker and the MR_NOTIFY macro to be installed and configured.</div>
                         </div>
                         
                     </div>
 
                     <!-- AI CATEGORY BUTTON CARD -->
                     <div class="setting-group">
-                        <h4>AI Categories</h4>
+                        <h4 data-i18n="settings.aiCategoriesTitle">AI Categories</h4>
                         <div class="ai-cat-btn-container">
-                            <button id="open-ai-cat-btn" class="secondary-btn">Edit AI Category Settings</button>
+                        <button id="open-ai-cat-btn" class="secondary-btn" data-i18n="buttons.editAiCategories">Edit AI Category Settings</button>
                         </div>
                     </div>
 
@@ -576,12 +570,12 @@
 
                 <div class="modal-footer settings-footer">
                     <div class="settings-footer-left">
-                        <button id="open-theme-btn" class="secondary-btn">🎨 Theme</button>
+                        <button id="open-theme-btn" class="secondary-btn" data-i18n="buttons.theme">🎨 Theme</button>
                     </div>
 
                     <div class="settings-footer-right">
                         <div id="settings-save-status" class="save-status" aria-live="polite"></div>
-                        <button id="save-settings-btn" class="primary-btn">Save Configuration</button>
+                    <button id="save-settings-btn" class="primary-btn" data-i18n="buttons.saveConfiguration">Save Configuration</button>
                     </div>
                 </div>
             </div>
@@ -591,34 +585,34 @@
             <div id="ai-page">
                 <div class="modal-body ai-cat-page-body">
                     <div class="page-header">
-                        <h4>AI Category Settings</h4>
-                        <span id="ai-unsaved-warning" class="inline-unsaved-warning" style="display: none;">⚠ Unsaved changes</span>
+                        <h4 data-i18n="settings.aiCategories">AI Category Settings</h4>
+                        <span id="ai-unsaved-warning" class="inline-unsaved-warning" style="display: none;" data-i18n="status.unsavedChanges">⚠ Unsaved changes</span>
                     </div>
 
                     <div class="ai-cat-body">
 
                         <div class="ai-col">
                             <div class="ai-cat-card">
-                                <h5>Spaghetti</h5>
-                                <label><input type="checkbox" id="cat_spaghetti_enabled"> Enabled</label>
-                                <label><input type="checkbox" id="cat_spaghetti_trigger"> Can Trigger Failure</label>
+                                <h5 data-i18n="ai.spaghetti">Spaghetti</h5>
+                                <label><input type="checkbox" id="cat_spaghetti_enabled"> <span data-i18n="ai.enabled">Enabled</span></label>
+                                <label><input type="checkbox" id="cat_spaghetti_trigger"> <span data-i18n="ai.canTriggerFailure">Can Trigger Failure</span></label>
                                 
                                 <div class="threshold-section">
                                     <div class="camera-threshold-group">
-                                        <h6>Primary Camera</h6>
-                                        <label>Detection Threshold (%):
+                                        <h6 data-i18n="ai.primaryCamera">Primary Camera</h6>
+                                        <label><span data-i18n="ai.detectionThreshold">Detection Threshold (%):</span>
                                             <input type="number" id="cat_spaghetti_cam0_detect_threshold" min="0" max="100">
                                         </label>
-                                        <label>Trigger Threshold (%):
+                                        <label><span data-i18n="ai.triggerThreshold">Trigger Threshold (%):</span>
                                             <input type="number" id="cat_spaghetti_cam0_trigger_threshold" min="0" max="100">
                                         </label>
                                     </div>
                                     <div class="camera-threshold-group secondary-camera-thresholds" style="display: none;">
-                                        <h6>Secondary Camera</h6>
-                                        <label>Detection Threshold (%):
+                                        <h6 data-i18n="ai.secondaryCamera">Secondary Camera</h6>
+                                        <label><span data-i18n="ai.detectionThreshold">Detection Threshold (%):</span>
                                             <input type="number" id="cat_spaghetti_cam1_detect_threshold" min="0" max="100">
                                         </label>
-                                        <label>Trigger Threshold (%):
+                                        <label><span data-i18n="ai.triggerThreshold">Trigger Threshold (%):</span>
                                             <input type="number" id="cat_spaghetti_cam1_trigger_threshold" min="0" max="100">
                                         </label>
                                     </div>
@@ -626,26 +620,26 @@
                             </div>
 
                             <div class="ai-cat-card">
-                                <h5>Blobs</h5>
-                                <label><input type="checkbox" id="cat_blob_enabled"> Enabled</label>
-                                <label><input type="checkbox" id="cat_blob_trigger"> Can Trigger Failure</label>
+                                <h5 data-i18n="ai.blobs">Blobs</h5>
+                                <label><input type="checkbox" id="cat_blob_enabled"> <span data-i18n="ai.enabled">Enabled</span></label>
+                                <label><input type="checkbox" id="cat_blob_trigger"> <span data-i18n="ai.canTriggerFailure">Can Trigger Failure</span></label>
                                 
                                 <div class="threshold-section">
                                     <div class="camera-threshold-group">
-                                        <h6>Primary Camera</h6>
-                                        <label>Detection Threshold (%):
+                                        <h6 data-i18n="ai.primaryCamera">Primary Camera</h6>
+                                        <label><span data-i18n="ai.detectionThreshold">Detection Threshold (%):</span>
                                             <input type="number" id="cat_blob_cam0_detect_threshold" min="0" max="100">
                                         </label>
-                                        <label>Trigger Threshold (%):
+                                        <label><span data-i18n="ai.triggerThreshold">Trigger Threshold (%):</span>
                                             <input type="number" id="cat_blob_cam0_trigger_threshold" min="0" max="100">
                                         </label>
                                     </div>
                                     <div class="camera-threshold-group secondary-camera-thresholds" style="display: none;">
-                                        <h6>Secondary Camera</h6>
-                                        <label>Detection Threshold (%):
+                                        <h6 data-i18n="ai.secondaryCamera">Secondary Camera</h6>
+                                        <label><span data-i18n="ai.detectionThreshold">Detection Threshold (%):</span>
                                             <input type="number" id="cat_blob_cam1_detect_threshold" min="0" max="100">
                                         </label>
-                                        <label>Trigger Threshold (%):
+                                        <label><span data-i18n="ai.triggerThreshold">Trigger Threshold (%):</span>
                                             <input type="number" id="cat_blob_cam1_trigger_threshold" min="0" max="100">
                                         </label>
                                     </div>
@@ -655,26 +649,26 @@
 
                         <div class="ai-col">
                             <div class="ai-cat-card">
-                                <h5>Cracks</h5>
-                                <label><input type="checkbox" id="cat_crack_enabled"> Enabled</label>
-                                <label><input type="checkbox" id="cat_crack_trigger"> Can Trigger Failure</label>
+                                <h5 data-i18n="ai.cracks">Cracks</h5>
+                                <label><input type="checkbox" id="cat_crack_enabled"> <span data-i18n="ai.enabled">Enabled</span></label>
+                                <label><input type="checkbox" id="cat_crack_trigger"> <span data-i18n="ai.canTriggerFailure">Can Trigger Failure</span></label>
                                 
                                 <div class="threshold-section">
                                     <div class="camera-threshold-group">
-                                        <h6>Primary Camera</h6>
-                                        <label>Detection Threshold (%):
+                                        <h6 data-i18n="ai.primaryCamera">Primary Camera</h6>
+                                        <label><span data-i18n="ai.detectionThreshold">Detection Threshold (%):</span>
                                             <input type="number" id="cat_crack_cam0_detect_threshold" min="0" max="100">
                                         </label>
-                                        <label>Trigger Threshold (%):
+                                        <label><span data-i18n="ai.triggerThreshold">Trigger Threshold (%):</span>
                                             <input type="number" id="cat_crack_cam0_trigger_threshold" min="0" max="100">
                                         </label>
                                     </div>
                                     <div class="camera-threshold-group secondary-camera-thresholds" style="display: none;">
-                                        <h6>Secondary Camera</h6>
-                                        <label>Detection Threshold (%):
+                                        <h6 data-i18n="ai.secondaryCamera">Secondary Camera</h6>
+                                        <label><span data-i18n="ai.detectionThreshold">Detection Threshold (%):</span>
                                             <input type="number" id="cat_crack_cam1_detect_threshold" min="0" max="100">
                                         </label>
-                                        <label>Trigger Threshold (%):
+                                        <label><span data-i18n="ai.triggerThreshold">Trigger Threshold (%):</span>
                                             <input type="number" id="cat_crack_cam1_trigger_threshold" min="0" max="100">
                                         </label>
                                     </div>
@@ -682,26 +676,26 @@
                             </div>
 
                             <div class="ai-cat-card">
-                                <h5>Warping</h5>
-                                <label><input type="checkbox" id="cat_warping_enabled"> Enabled</label>
-                                <label><input type="checkbox" id="cat_warping_trigger"> Can Trigger Failure</label>
+                                <h5 data-i18n="ai.warping">Warping</h5>
+                                <label><input type="checkbox" id="cat_warping_enabled"> <span data-i18n="ai.enabled">Enabled</span></label>
+                                <label><input type="checkbox" id="cat_warping_trigger"> <span data-i18n="ai.canTriggerFailure">Can Trigger Failure</span></label>
                                 
                                 <div class="threshold-section">
                                     <div class="camera-threshold-group">
-                                        <h6>Primary Camera</h6>
-                                        <label>Detection Threshold (%):
+                                        <h6 data-i18n="ai.primaryCamera">Primary Camera</h6>
+                                        <label><span data-i18n="ai.detectionThreshold">Detection Threshold (%):</span>
                                             <input type="number" id="cat_warping_cam0_detect_threshold" min="0" max="100">
                                         </label>
-                                        <label>Trigger Threshold (%):
+                                        <label><span data-i18n="ai.triggerThreshold">Trigger Threshold (%):</span>
                                             <input type="number" id="cat_warping_cam0_trigger_threshold" min="0" max="100">
                                         </label>
                                     </div>
                                     <div class="camera-threshold-group secondary-camera-thresholds" style="display: none;">
-                                        <h6>Secondary Camera</h6>
-                                        <label>Detection Threshold (%):
+                                        <h6 data-i18n="ai.secondaryCamera">Secondary Camera</h6>
+                                        <label><span data-i18n="ai.detectionThreshold">Detection Threshold (%):</span>
                                             <input type="number" id="cat_warping_cam1_detect_threshold" min="0" max="100">
                                         </label>
-                                        <label>Trigger Threshold (%):
+                                        <label><span data-i18n="ai.triggerThreshold">Trigger Threshold (%):</span>
                                             <input type="number" id="cat_warping_cam1_trigger_threshold" min="0" max="100">
                                         </label>
                                     </div>
@@ -715,13 +709,13 @@
 
                 <div class="modal-footer ai-footer">
                     <div class="ai-footer-left">
-                        <button id="back-ai-btn" class="secondary-btn">Back</button>
+                        <button id="back-ai-btn" class="secondary-btn" data-i18n="buttons.back">Back</button>
                     </div>
 
                     <div class="ai-footer-right">
                         <div class="category-error-text" id="category-error-text"></div>
                         <div class="save-status" id="category-save-status" aria-live="polite"></div>
-                        <button id="save-ai-cat-btn" class="primary-btn">Save Category Settings</button>
+                        <button id="save-ai-cat-btn" class="primary-btn" data-i18n="buttons.saveCategorySettings">Save Category Settings</button>
                     </div>
                 </div>
             </div>
@@ -733,67 +727,67 @@
     <!-- THEME PREVIEW DOCK (DASHBOARD OVERLAY) -->
     <div id="theme-preview-dock" class="theme-preview-dock hidden">
         <div class="preview-dock-header">
-            <span class="preview-title-line">Theme</span>
-            <span class="preview-title-line">Preview</span>
+            <span class="preview-title-line" data-i18n="theme.previewTitle">Theme</span>
+            <span class="preview-title-line" data-i18n="theme.previewSubtitle">Preview</span>
         </div>
 
         <div class="preview-theme-list">
-            <div class="preview-theme" data-theme="dark" title="Dark"></div>
-            <div class="preview-theme" data-theme="light" title="Light"></div>
-            <div class="preview-theme" data-theme="midnight" title="Midnight"></div>
-            <div class="preview-theme" data-theme="crimson" title="Crimson"></div>
-            <div class="preview-theme" data-theme="mint" title="Mint"></div>
-            <div class="preview-theme" data-theme="forest" title="Forest"></div>
-            <div class="preview-theme" data-theme="aurora" title="Aurora"></div>
-            <div class="preview-theme" data-theme="voron" title="Voron"></div>
-            <div class="preview-theme" data-theme="custom" title="Custom"></div>
+            <div class="preview-theme" data-theme="dark" data-i18n="theme.dark" data-i18n-attr="title" title="Dark"></div>
+            <div class="preview-theme" data-theme="light" data-i18n="theme.light" data-i18n-attr="title" title="Light"></div>
+            <div class="preview-theme" data-theme="midnight" data-i18n="theme.midnight" data-i18n-attr="title" title="Midnight"></div>
+            <div class="preview-theme" data-theme="crimson" data-i18n="theme.crimson" data-i18n-attr="title" title="Crimson"></div>
+            <div class="preview-theme" data-theme="mint" data-i18n="theme.mint" data-i18n-attr="title" title="Mint"></div>
+            <div class="preview-theme" data-theme="forest" data-i18n="theme.forest" data-i18n-attr="title" title="Forest"></div>
+            <div class="preview-theme" data-theme="aurora" data-i18n="theme.aurora" data-i18n-attr="title" title="Aurora"></div>
+            <div class="preview-theme" data-theme="voron" data-i18n="theme.voron" data-i18n-attr="title" title="Voron"></div>
+            <div class="preview-theme" data-theme="custom" data-i18n="theme.custom" data-i18n-attr="title" title="Custom"></div>
         </div>
         
-        <button id="exit-preview-btn" class="secondary-btn exit-preview-btn" type="button">Exit Preview</button>
+        <button id="exit-preview-btn" class="secondary-btn exit-preview-btn" type="button" data-i18n="buttons.exitPreview">Exit Preview</button>
         
     </div>
     
 <!-- Per-category stats modal -->
     <dialog id="stats-modal" class="modal stats-modal">
         <div class="modal-header">
-            <h3 id="stats-modal-title">Camera Detection Breakdown</h3>
+            <h3 id="stats-modal-title" data-i18n="stats.cameraDetectionBreakdown">Camera Detection Breakdown</h3>
             <button id="close-stats-modal" class="icon-btn">&times;</button>
         </div>
         <div class="modal-body">
             <div class="stats-table">
                 <div class="stats-table-header">
-                    <span>Category</span>
-                    <span>Detections</span>
-                    <span>Failures</span>
+                    <span data-i18n="stats.category">Category</span>
+                    <span data-i18n="stats.detections">Detections</span>
+                    <span data-i18n="stats.failures">Failures</span>
                 </div>
 
                 <div class="stats-table-row">
-                    <span>Spaghetti</span>
+                    <span data-i18n="ai.spaghetti">Spaghetti</span>
                     <span id="stat-det-spaghetti">0</span>
                     <span id="stat-fail-spaghetti">0</span>
                 </div>
 
                 <div class="stats-table-row">
-                    <span>Blobs</span>
+                    <span data-i18n="ai.blobs">Blobs</span>
                     <span id="stat-det-blob">0</span>
                     <span id="stat-fail-blob">0</span>
                 </div>
 
                 <div class="stats-table-row">
-                    <span>Cracks</span>
+                    <span data-i18n="ai.cracks">Cracks</span>
                     <span id="stat-det-crack">0</span>
                     <span id="stat-fail-crack">0</span>
                 </div>
 
                 <div class="stats-table-row">
-                    <span>Warping</span>
+                    <span data-i18n="ai.warping">Warping</span>
                     <span id="stat-det-warping">0</span>
                     <span id="stat-fail-warping">0</span>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button id="reset-stats-btn" class="secondary-btn">
+                <button id="reset-stats-btn" class="secondary-btn" data-i18n="buttons.resetCounters">
                 Reset Counters
             </button>
         </div>
@@ -802,7 +796,7 @@
     <!-- Failure History modal -->
     <dialog id="history-modal" class="modal history-modal">
         <div class="modal-header">
-            <h3>Failure History</h3>
+            <h3 data-i18n="history.title">Failure History</h3>
             <button id="close-history-modal" class="icon-btn">&times;</button>
         </div>
 
@@ -810,10 +804,10 @@
             <div class="history-table">
                 <div id="history-scroll" class="history-scroll">
                     <div class="history-table-header">
-                        <span>Time</span>
-                        <span>Camera</span>
-                        <span>Category</span>
-                        <span>Conf</span>
+                        <span data-i18n="history.time">Time</span>
+                        <span data-i18n="history.camera">Camera</span>
+                        <span data-i18n="history.category">Category</span>
+                        <span data-i18n="history.confidence">Conf</span>
                     </div>
 
                     <div id="history-table-body"></div>
@@ -822,21 +816,21 @@
         </div>
 
         <div class="modal-footer">
-            <button id="clear-history-btn" class="secondary-btn">Clear History</button>
+            <button id="clear-history-btn" class="secondary-btn" data-i18n="buttons.clearHistory">Clear History</button>
         </div>
     </dialog>
     
     <!-- Logs modal -->
     <dialog id="logs-modal" class="modal logs-modal">
         <div class="modal-header">
-            <h3>Plugin Log</h3>
+            <h3 data-i18n="logs.title">Plugin Log</h3>
             <button id="close-logs-modal" class="icon-btn">&times;</button>
         </div>
         <div class="modal-body logs-body">
             <div id="log-content" class="log-content"></div>
         </div>
         <div class="modal-footer">
-            <button id="download-logs-btn" class="primary-btn">Download</button>
+            <button id="download-logs-btn" class="primary-btn" data-i18n="buttons.download">Download</button>
         </div>
     </dialog>
 

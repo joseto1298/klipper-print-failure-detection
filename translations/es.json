@@ -1,0 +1,91 @@
+{
+  "dashboard": {
+    "title": "Panel de Detección de Fallos",
+    "status": {
+      "waiting": "ESPERANDO"
+    },
+    "camera": {
+      "primary": "Cámara Principal",
+      "secondary": "Cámara Secundaria",
+      "detections": "Detecciones",
+      "failures": "Fallos",
+      "active": "Activa",
+      "clear_masks": "Limpiar Máscaras"
+    },
+    "mask_info": {
+      "help": "Haz clic y arrastra sobre la cámara para añadir zonas de máscara. Haz clic derecho en una zona para eliminarla. Haz clic en 'Visualize Mask' para mostrar la superposición de la máscara."
+    },
+    "health": {
+      "failure_probability": "Probabilidad de Fallo",
+      "retries": "Reintentos"
+    },
+    "controls": {
+      "visualize_mask": "Visualizar Máscara",
+      "start_monitoring": "▶ Iniciar Monitoreo",
+      "settings": "⚙️ Ajustes",
+      "history": "Historial",
+      "logs": "Registros ▾"
+    },
+    "settings": {
+      "title": "Configuración",
+      "theme": {
+        "title": "Tema del Panel",
+        "dark": "Oscuro (Predeterminado)",
+        "light": "Claro",
+        "midnight": "Medianoche",
+        "crimson": "Carmesí",
+        "mint": "Menta",
+        "forest": "Bosque",
+        "aurora": "Aurora",
+        "voron": "Voron",
+        "custom": "Personalizado",
+        "preview": "👁 Vista previa",
+        "save": "Guardar Tema"
+      },
+      "general": {
+        "title": "Ajustes Generales",
+        "camera_count": "Cantidad de Cámaras",
+        "camera_url": "URL de la Cam {number}",
+        "aspect_ratio": "Relación de Aspecto de la Cam {number}",
+        "moonraker_url": "URL de Moonraker"
+      },
+      "failure_response": {
+        "title": "Respuesta ante Fallo",
+        "check_interval": "Intervalo de comprobación (ms)",
+        "ai_inference_rate": "Frecuencia de inferencia de IA",
+        "max_retries": "Reintentos máximos",
+        "failure_action": "Acción ante fallo",
+        "detection_summary": "Resumen de detecciones",
+        "mobileraker_notification": "Enviar notificación de Mobileraker"
+      },
+      "ai_categories": {
+        "title": "Categorías de IA",
+        "edit": "Editar ajustes de categorías de IA"
+      }
+    },
+    "ai_categories": {
+      "spaghetti": "Espagueti",
+      "blobs": "Bultos",
+      "cracks": "Grietas",
+      "warping": "Deformación",
+      "enabled": "Habilitado",
+      "trigger_failure": "Puede activar fallo",
+      "detection_threshold": "Umbral de detección (%)",
+      "trigger_threshold": "Umbral de activación (%)"
+    },
+    "modals": {
+      "stats": {
+        "title": "Desglose de detecciones por cámara",
+        "reset_counters": "Reiniciar contadores"
+      },
+      "history": {
+        "title": "Historial de fallos",
+        "clear_history": "Limpiar historial"
+      },
+      "logs": {
+        "title": "Registro del plugin",
+        "download": "Descargar"
+      }
+    }
+  }
+}

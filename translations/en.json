@@ -1,0 +1,91 @@
+{
+  "dashboard": {
+    "title": "Failure Detection Dashboard",
+    "status": {
+      "waiting": "WAITING"
+    },
+    "camera": {
+      "primary": "Primary Camera",
+      "secondary": "Secondary Camera",
+      "detections": "Detections",
+      "failures": "Failures",
+      "active": "Active",
+      "clear_masks": "Clear Masks"
+    },
+    "mask_info": {
+      "help": "Click and drag on the camera to add mask zones. Right-click a zone to remove it. Click 'Visualize Mask' to show the mask overlay."
+    },
+    "health": {
+      "failure_probability": "Failure Probability",
+      "retries": "Retries"
+    },
+    "controls": {
+      "visualize_mask": "Visualize Mask",
+      "start_monitoring": "▶ Start Monitoring",
+      "settings": "⚙️ Settings",
+      "history": "History",
+      "logs": "Logs ▾"
+    },
+    "settings": {
+      "title": "Configuration",
+      "theme": {
+        "title": "Dashboard Theme",
+        "dark": "Dark (Default)",
+        "light": "Light",
+        "midnight": "Midnight",
+        "crimson": "Crimson",
+        "mint": "Mint",
+        "forest": "Forest",
+        "aurora": "Aurora",
+        "voron": "Voron",
+        "custom": "Custom",
+        "preview": "👁 Preview",
+        "save": "Save Theme"
+      },
+      "general": {
+        "title": "General Settings",
+        "camera_count": "Camera Count",
+        "camera_url": "Cam {number} URL",
+        "aspect_ratio": "Cam {number} Aspect Ratio",
+        "moonraker_url": "Moonraker URL"
+      },
+      "failure_response": {
+        "title": "Failure Response",
+        "check_interval": "Check Interval (ms)",
+        "ai_inference_rate": "AI Inference Rate",
+        "max_retries": "Max Retries",
+        "failure_action": "Failure Action",
+        "detection_summary": "Detection Summary",
+        "mobileraker_notification": "Send Mobileraker Notification"
+      },
+      "ai_categories": {
+        "title": "AI Categories",
+        "edit": "Edit AI Category Settings"
+      }
+    },
+    "ai_categories": {
+      "spaghetti": "Spaghetti",
+      "blobs": "Blobs",
+      "cracks": "Cracks",
+      "warping": "Warping",
+      "enabled": "Enabled",
+      "trigger_failure": "Can Trigger Failure",
+      "detection_threshold": "Detection Threshold (%)",
+      "trigger_threshold": "Trigger Threshold (%)"
+    },
+    "modals": {
+      "stats": {
+        "title": "Camera Detection Breakdown",
+        "reset_counters": "Reset Counters"
+      },
+      "history": {
+        "title": "Failure History",
+        "clear_history": "Clear History"
+      },
+      "logs": {
+        "title": "Plugin Log",
+        "download": "Download"
+      }
+    }
+  }
+}
