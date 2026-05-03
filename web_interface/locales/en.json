@@ -65,8 +65,8 @@
   "settings.failureAction": "Failure Action:",
   "settings.detectionSummary": "Detection Summary:",
   "settings.detectionSummaryHelp": "Sends a summary of detections and failures to the printer console after you stop monitoring or when the print ends. Only enabled categories and cameras are included.",
-  "settings.sendMobilerakerNotification": "Send Mobileraker Notification:",
-  "settings.mobilerakerHelp": "Sends a Mobileraker push notification when a failure is triggered. Requires Mobileraker and the MR_NOTIFY macro to be installed and configured.",
+  "settings.sendNotification": "Send Notification:",
+  "settings.notifyHelp": "Sends a notification when a failure is triggered. Requires the AI_NOTIFY macro to be installed and configured.",
   "settings.aiCategoriesTitle": "AI Categories",
   "settings.aiCategories": "AI Category Settings",
   "theme.dashboard": "Dashboard Theme",
@@ -144,5 +144,11 @@
   "notifications.maskAdded": "Mask added",
   "notifications.maskRemoved": "Mask removed",
   "notifications.masksCleared": "Masks cleared",
+  "notifications.aiNotifyTitle": "AI Failure Detected: {reason}",
+  "notifications.aiNotifyMessage": "Action: {action}",
+  "notifications.aiNotifyConfidence": "Confidence: {confidence}",
+  "notifications.action.nothing": "Warning",
+  "notifications.action.pause": "Pause Print",
+  "notifications.action.cancel": "Cancel Print",
   "validation.detectionLowerThanFailure": "Detection must be lower than failure for: {items}."
 }

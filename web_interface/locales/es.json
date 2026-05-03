@@ -65,8 +65,8 @@
   "settings.failureAction": "Acción ante fallo:",
   "settings.detectionSummary": "Resumen de detección:",
   "settings.detectionSummaryHelp": "Envía un resumen de detecciones y fallos a la consola de la impresora cuando dejas de monitorizar o termina la impresión. Solo se incluyen las categorías y cámaras activadas.",
-  "settings.sendMobilerakerNotification": "Enviar notificación de Mobileraker:",
-  "settings.mobilerakerHelp": "Envía una notificación push de Mobileraker cuando se dispara un fallo. Requiere Mobileraker y la macro MR_NOTIFY instalados y configurados.",
+  "settings.sendNotification": "Enviar notificación:",
+  "settings.notifyHelp": "Envía una notificación cuando se dispara un fallo. Requiere la macro AI_NOTIFY instalada y configurada.",
   "settings.aiCategoriesTitle": "Categorías de IA",
   "settings.aiCategories": "Ajustes de categorías de IA",
   "theme.dashboard": "Tema del panel",
@@ -144,5 +144,11 @@
   "notifications.maskAdded": "Máscara añadida",
   "notifications.maskRemoved": "Máscara eliminada",
   "notifications.masksCleared": "Máscaras borradas",
+  "notifications.aiNotifyTitle": "Fallo de IA detectado: {reason}",
+  "notifications.aiNotifyMessage": "Acción: {action}",
+  "notifications.aiNotifyConfidence": "Confianza: {confidence}",
+  "notifications.action.nothing": "Aviso",
+  "notifications.action.pause": "Pausar impresión",
+  "notifications.action.cancel": "Cancelar impresión",
   "validation.detectionLowerThanFailure": "La detección debe ser menor que el fallo para: {items}."
 }

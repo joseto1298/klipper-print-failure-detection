@@ -1191,10 +1191,6 @@ async function loadSettings() {
       sumToggle.checked = currentSettings.send_summary ?? true;
     }
 
-    // Mobileraker notification
-    document.getElementById("notify_mobileraker").checked =
-      currentSettings.notify_mobileraker ?? false;
-
     // Masks
     const m = currentSettings.masks || {};
     maskZones[0] = Array.isArray(m["0"]) ? [...m["0"]] : [];
@@ -2223,8 +2219,8 @@ document
 
     currentSettings.on_failure = document.getElementById("on_failure").value;
 
-    currentSettings.notify_mobileraker =
-      document.getElementById("notify_mobileraker").checked;
+    currentSettings.notify_notifications =
+      document.getElementById("notify_notifications").checked;
 
     // AI Summary toggle
     currentSettings.send_summary =

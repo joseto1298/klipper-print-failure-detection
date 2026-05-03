@@ -55,8 +55,7 @@
         "ai_inference_rate": "AI Inference Rate",
         "max_retries": "Max Retries",
         "failure_action": "Failure Action",
-        "detection_summary": "Detection Summary",
-        "mobileraker_notification": "Send Mobileraker Notification"
+        "detection_summary": "Detection Summary"
       },
       "ai_categories": {
         "title": "AI Categories",

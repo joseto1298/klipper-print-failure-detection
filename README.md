@@ -21,9 +21,7 @@ The plugin includes a complete monitoring dashboard with live camera feeds, visu
 ### Optional:
 - Gcode Shell Commands (via kiauh; only needed for auto-start macro)
    - https://github.com/dw-0/kiauh/tree/master
-- Mobileraker (phone notifications for triggered failures)
-   - https://mobileraker.com/
-   - https://github.com/Clon1998/mobileraker_companion
+- Notifications (requires the `AI_NOTIFY` macro)
 
 ## Features
 
@@ -59,7 +57,7 @@ The plugin includes a complete monitoring dashboard with live camera feeds, visu
 
 - **Configurable Actions**: Choose to warn only, pause, or cancel the print when a failure is detected.
 
-- **Mobileraker Notifications**: If you have Mobileraker installed and custom notifications setup, you can enable automatic notifications for detected failures.
+- **Notifications**: Enable notifications for detected failures using the `AI_NOTIFY` macro.
 
 - **AI Detection Categories**: Choose what types of print failures you want to detect and whether or not they can trigger a failure.
 
@@ -158,13 +156,17 @@ command: curl -X POST http://127.0.0.1:7126/api/action/stop
 timeout: 5
 ```
 
-- If you have Mobileraker installed, make sure you have the following macro set up to allow custom notifications if you want those enabled:
+- If you want notifications enabled, make sure you have the following macro set up:
 
 ```bash
-[gcode_macro MR_NOTIFY]
-description: Allows you to send a custom notification via Mobileraker without using the M117 command
+[gcode_macro AI_NOTIFY]
+description: Allows you to send a custom notification
 gcode:
-    {% set msg = "MR_NOTIFY:" ~ (params.TITLE ~ "|" if 'TITLE' in params|upper else "") ~ params.MESSAGE %}
+    {% set msg = "AI_NOTIFY:"
+        ~ (params.TITLE ~ "|" if 'TITLE' in params|upper else "")
+        ~ params.MESSAGE
+        ~ ("|" ~ params.CONFIDENCE if 'CONFIDENCE' in params|upper else "")
+    %}
 
     {% if 'MESSAGE' in params|upper %}
         { action_respond_info(msg) }

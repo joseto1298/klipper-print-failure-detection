@@ -75,6 +75,52 @@ CLASS_NAMES = ["Spaghetti", "Blob", "Warping", "Crack"]
 
 CATEGORY_KEYS = [name.lower() for name in CLASS_NAMES]
 
+_LOCALES_CACHE = {}
+
+
+def _load_locale(lang: str) -> dict:
+    """Load UI locale strings from web_interface/locales/{lang}.json (fallback to en)."""
+    if not lang:
+        lang = "en"
+    if lang in _LOCALES_CACHE:
+        return _LOCALES_CACHE[lang]
+
+    base_dir = os.path.dirname(__file__)
+    locale_dir = os.path.join(base_dir, "web_interface", "locales")
+    path = os.path.join(locale_dir, f"{lang}.json")
+    fallback = os.path.join(locale_dir, "en.json")
+
+    data = {}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        try:
+            with open(fallback, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception:
+            data = {}
+
+    _LOCALES_CACHE[lang] = data
+    return data
+
+
+def _t(key: str, default: str = "", **kwargs) -> str:
+    """Translate a dotted key using current config language, with safe formatting."""
+    lang = (config.get("language") if isinstance(config, dict) else None) or "en"
+    text = _load_locale(lang).get(key, default)
+    if kwargs:
+        try:
+            text = text.format(**kwargs)
+        except Exception:
+            pass
+    return text
+
+
+def _escape_gcode_string(value: str) -> str:
+    # AI_NOTIFY uses quoted params; escape any embedded quotes to avoid breaking the command.
+    return (value or "").replace('"', '\\"')
+
 def stats_block():
     """Create a stats dict for one camera, including per-category counters."""
     return {
@@ -110,7 +156,7 @@ default_config = {
     "infer_every_n_loops": 1,
     "cam1_aspect_ratio": "4:3",
     "cam2_aspect_ratio": "4:3",
-    "notify_mobileraker": False,
+    "notify_notifications": False,
     "send_summary": True,
     "language": "en",
 
@@ -176,8 +222,8 @@ if os.path.exists(SETTINGS_FILE):
         with open(SETTINGS_FILE, "r") as f:
             loaded = json.load(f)
             config.update(loaded)
-            if "notify_mobileraker" not in config:
-                config["notify_mobileraker"] = False
+            if "notify_notifications" not in config:
+                config["notify_notifications"] = False
             if "masks" not in config:
                 config["masks"] = default_config["masks"]
             if "ai_categories" not in config:
@@ -652,40 +698,67 @@ def send_print_summary():
     state["_print_summary_sent"] = True
 
 
-def trigger_printer_action(reason="Failure"):
+def trigger_printer_action(reason=None):
     if state["action_triggered"]:
         return
+
+    # Prefer explicit reason; otherwise derive it from the last failure metadata.
+    failure_reason = state.get("failure_reason") or {}
+    if not reason:
+        reason = failure_reason.get("category") or "Failure"
+
+    confidence = failure_reason.get("confidence")
+    confidence_pct = int(confidence * 100) if isinstance(confidence, (int, float)) else None
+    conf_txt = f" ({confidence_pct}%)" if confidence_pct is not None else ""
+    confidence_param = f"{confidence_pct}%" if confidence_pct is not None else ""
 
     action = config.get("on_failure", "nothing")
     url = config.get("moonraker_url", "").rstrip("/")
 
-    logging.info(f"Failure confirmed: {reason} | Action = {action}")
+    logging.info(f"Failure confirmed: {reason}{conf_txt} | Action = {action}")
 
-    try:
-        requests.post(
-            f"{url}/printer/gcode/script",
-            json={"script": f"M118 >>> {reason.upper()}! Action: {action.upper()} <<<"}
-        )
-        
-        # --- Mobileraker notification (optional) ---
-        if config.get("notify_mobileraker", False):
-            action_name = {
-                "nothing": "Warning",
-                "pause": "Pause Print",
-                "cancel": "Cancel Print"
-            }.get(action, action)
-
-            notify_msg = f"⚠️ AI Failure Detected – Action: {action_name}"
-
-            requests.post(
-                f"{url}/printer/gcode/script",
-                json={"script": f'MR_NOTIFY MESSAGE="{notify_msg}"'}
-            )
-
+    try:       
         if action == "pause":
             requests.post(f"{url}/printer/print/pause")
         elif action == "cancel":
             requests.post(f"{url}/printer/print/cancel")
+            
+        notify_enabled = bool(config.get("notify_notifications", False))
+        if notify_enabled:
+            # Localize category names (internal keys are singular for some classes).
+            cat_key = str(reason).lower()
+            cat_key = {"blob": "blobs", "crack": "cracks"}.get(cat_key, cat_key)
+            reason_label = _t(f"ai.{cat_key}", default=str(reason))
+
+            action_label = _t(
+                f"notifications.action.{action}",
+                default={"nothing": "Warning", "pause": "Pause Print", "cancel": "Cancel Print"}.get(action, action),
+            )
+
+            notify_title = _t(
+                "notifications.aiNotifyTitle",
+                default="AI Failure Detected: {reason}",
+                reason=reason_label,
+            )
+
+            action_line = _t(
+                "notifications.aiNotifyMessage",
+                default="Action: {action}",
+                action=action_label,
+            )
+
+            notify_msg = action_line
+            
+            requests.post(
+                f"{url}/printer/gcode/script",
+                json={
+                    "script": (
+                        f'AI_NOTIFY TITLE="{_escape_gcode_string(notify_title)}" '
+                        f'MESSAGE="{_escape_gcode_string(notify_msg)}" '
+                        f'CONFIDENCE="{_escape_gcode_string(confidence_param)}"'
+                    )
+                },
+            )
 
     except Exception:
         pass
@@ -1021,7 +1094,7 @@ def background_monitor():
                         "severity": "failure"
                     })
                     
-                    trigger_printer_action("AI detection")
+                    trigger_printer_action()
 
             elif do_infer and max_frame_score == 0.0:
                 if state["failure_count"] > 0:

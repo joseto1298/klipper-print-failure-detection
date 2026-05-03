@@ -55,8 +55,7 @@
         "ai_inference_rate": "Frecuencia de inferencia de IA",
         "max_retries": "Reintentos máximos",
         "failure_action": "Acción ante fallo",
-        "detection_summary": "Resumen de detecciones",
-        "mobileraker_notification": "Enviar notificación de Mobileraker"
+        "detection_summary": "Resumen de detecciones"
       },
       "ai_categories": {
         "title": "Categorías de IA",
