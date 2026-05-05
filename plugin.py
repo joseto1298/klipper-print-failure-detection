@@ -222,8 +222,6 @@ if os.path.exists(SETTINGS_FILE):
         with open(SETTINGS_FILE, "r") as f:
             loaded = json.load(f)
             config.update(loaded)
-            if "notify_notifications" not in config:
-                config["notify_notifications"] = False
             if "masks" not in config:
                 config["masks"] = default_config["masks"]
             if "ai_categories" not in config:

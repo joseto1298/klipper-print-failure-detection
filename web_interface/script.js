@@ -1191,6 +1191,12 @@ async function loadSettings() {
       sumToggle.checked = currentSettings.send_summary ?? true;
     }
 
+    // Notifications
+    const sumNotifications = document.getElementById("notify_notifications");
+    if (sumNotifications) {
+      sumNotifications.checked = currentSettings.notify_notifications ?? true;
+    }
+
     // Masks
     const m = currentSettings.masks || {};
     maskZones[0] = Array.isArray(m["0"]) ? [...m["0"]] : [];
@@ -2219,8 +2225,9 @@ document
 
     currentSettings.on_failure = document.getElementById("on_failure").value;
 
-    currentSettings.notify_notifications =
-      document.getElementById("notify_notifications").checked;
+    currentSettings.notify_notifications = document.getElementById(
+      "notify_notifications"
+    ).checked;
 
     // AI Summary toggle
     currentSettings.send_summary =
