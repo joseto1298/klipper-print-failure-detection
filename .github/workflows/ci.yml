@@ -14,15 +14,9 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
-      - name: Install requirements (if present)
-        run: |
-          if [ -f requirements.txt ]; then
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-          else
-            echo "No requirements.txt found"
-          fi
+          python-version: "3.11"
+      - name: Show Python version
+        run: python --version
       - name: Basic syntax check (Python files)
         run: |
           python - <<'PY'
