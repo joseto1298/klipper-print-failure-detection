@@ -1568,7 +1568,97 @@ dialog#settings-modal {
 }
 
 /* ==========================================================================
-   14. THEME MODAL & PREVIEW DOCK
+   14. CAPTURES MODAL
+   ========================================================================== */
+
+.captures-modal {
+    max-width: 860px;
+    width: 92%;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    padding: 0;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.captures-modal.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+.captures-modal .modal-header {
+    flex-shrink: 0;
+}
+.captures-modal .modal-body {
+    padding: 12px;
+    overflow-y: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+.captures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+.capture-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s ease;
+}
+.capture-card:hover {
+    border-color: var(--accent);
+}
+.capture-thumb {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    cursor: pointer;
+    display: block;
+    background: var(--live-bg);
+}
+.capture-meta {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.capture-meta-line {
+    color: var(--text-soft);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.capture-meta-label {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+.capture-meta-date {
+    color: var(--text-muted);
+    font-family: monospace;
+    font-size: 0.7rem;
+    margin-top: 2px;
+}
+.captures-empty {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 40px 0;
+}
+.captures-modal .modal-footer {
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   15. THEME MODAL & PREVIEW DOCK
    ========================================================================== */
 
 #theme-page .theme-page-body {
@@ -1819,7 +1909,7 @@ body.theme-preview-active #theme-preview-dock { pointer-events: auto; }
 }
 
 /* ==========================================================================
-   15. ANIMATIONS
+   16. ANIMATIONS
    ========================================================================== */
 
 @keyframes failure-flash {
@@ -1840,7 +1930,7 @@ body.theme-preview-active #theme-preview-dock { pointer-events: auto; }
 }
 
 /* ==========================================================================
-   16. MEDIA QUERIES & RESPONSIVENESS
+   17. MEDIA QUERIES & RESPONSIVENESS
    ========================================================================== */
 
 /* DESKTOP STABILITY: prevent bottom UI from collapsing on short windows */

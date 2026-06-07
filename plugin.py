@@ -6,6 +6,7 @@ import numpy as np
 import requests
 import json
 import os
+import re
 from flask import Flask, jsonify, request, Response, send_from_directory
 
 # ================================================================
@@ -70,6 +71,7 @@ app = Flask(__name__, static_folder="web_interface")
 
 SETTINGS_FILE = os.path.join(os.path.dirname(__file__), "user_settings.json")
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "model.tflite")
+CAPTURES_DIR = os.path.join(os.path.dirname(__file__), "captures")
 
 CLASS_NAMES = ["Spaghetti", "Blob", "Warping", "Crack"]
 
@@ -158,6 +160,9 @@ default_config = {
     "cam2_aspect_ratio": "4:3",
     "notify_notifications": False,
     "send_summary": True,
+    "capture_enabled": True,
+    "capture_max_count": 25,
+    "capture_on": "detection",
     "language": "en",
 
     # UI Theme
@@ -765,6 +770,74 @@ def trigger_printer_action(reason=None):
 
 
 # ================================================================
+#   FAILURE CAPTURES
+# ================================================================
+
+def ensure_captures_dir():
+    """Create the captures directory if it doesn't exist."""
+    if not os.path.exists(CAPTURES_DIR):
+        try:
+            os.makedirs(CAPTURES_DIR)
+        except Exception:
+            pass
+
+
+def save_capture(cam_id, frame, category, confidence):
+    """Save an annotated frame to disk when a failure is confirmed.
+
+    Returns the filename if saved, None otherwise.
+    """
+    if not bool(config.get("capture_enabled", True)):
+        return None
+
+    if frame is None:
+        return None
+
+    ensure_captures_dir()
+
+    now = time.strftime("%Y%m%d_%H%M%S")
+    conf_pct = int(confidence * 100) if isinstance(confidence, (int, float)) else 0
+    safe_cat = category.lower().replace(" ", "_")
+    filename = f"cam{cam_id}_{safe_cat}_{now}_{conf_pct}.jpg"
+    filepath = os.path.join(CAPTURES_DIR, filename)
+
+    try:
+        ok, buf = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
+        if ok:
+            with open(filepath, "wb") as f:
+                f.write(buf.tobytes())
+            logging.info(f"Capture saved: {filename}")
+            cleanup_old_captures()
+            return filename
+    except Exception as e:
+        logging.error(f"Failed to save capture: {e}")
+
+    return None
+
+
+def cleanup_old_captures():
+    """Remove oldest captures if total exceeds the configured max."""
+    max_count = int(config.get("capture_max_count", 50))
+    if max_count <= 0:
+        return
+
+    try:
+        files = sorted(
+            [f for f in os.listdir(CAPTURES_DIR) if f.endswith(".jpg")],
+            key=lambda f: os.path.getmtime(os.path.join(CAPTURES_DIR, f)),
+        )
+        while len(files) > max_count:
+            oldest = files.pop(0)
+            try:
+                os.remove(os.path.join(CAPTURES_DIR, oldest))
+                logging.info(f"Removed old capture: {oldest}")
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+
+# ================================================================
 #   BACKGROUND MONITOR LOOP
 # ================================================================
 
@@ -1037,6 +1110,19 @@ def background_monitor():
 
                     state["cameras"][cam_id]["frame"] = debug
 
+                    # Save capture based on configured capture_on mode
+                    capture_on = config.get("capture_on", "detection")
+                    should_capture = (
+                        do_infer and history_best_category and len(filtered_dets) > 0
+                    )
+                    if should_capture:
+                        if capture_on == "detection":
+                            save_capture(cam_id, debug, history_best_category, history_best_conf)
+                        elif capture_on == "trigger" and history_is_trigger:
+                            save_capture(cam_id, debug, history_best_category, history_best_conf)
+                        elif capture_on == "both":
+                            save_capture(cam_id, debug, history_best_category, history_best_conf)
+
                 except Exception as e:
                     # Only log errors AFTER the camera succeeded at least once
                     if camera_ready.get(cam_id, False):
@@ -1091,7 +1177,7 @@ def background_monitor():
                         "confidence": int(trigger_conf_here * 100),
                         "severity": "failure"
                     })
-                    
+
                     trigger_printer_action()
 
             elif do_infer and max_frame_score == 0.0:
@@ -1279,6 +1365,102 @@ def get_frame(cam_id):
 def api_logs():
     """Return the last X lines of logs to the UI."""
     return jsonify({"logs": "\n".join(LOG_BUFFER)})
+
+# ================================================================
+#   CAPTURES API
+# ================================================================
+
+def _parse_capture_meta(filename):
+    """Parse metadata from a capture filename.
+
+    Expected format: cam{id}_{category}_{YYYYMMDD}_{HHMMSS}_{confidence}.jpg
+    Returns dict or None if the filename doesn't match.
+    """
+    if not filename.endswith(".jpg"):
+        return None
+    stem = filename[:-4]
+    parts = stem.split("_")
+    if len(parts) < 5:
+        return None
+    try:
+        cam_part = parts[0]
+        cam_id = int(cam_part.replace("cam", ""))
+    except Exception:
+        cam_id = -1
+    confidence_str = parts[-1]
+    try:
+        confidence = int(confidence_str)
+    except Exception:
+        confidence = 0
+    date_str = parts[-3]
+    time_str = parts[-2]
+    # Category is everything between cam{X} and the date
+    category = "_".join(parts[1:-3])
+
+    filepath = os.path.join(CAPTURES_DIR, filename)
+    try:
+        size = os.path.getsize(filepath)
+    except Exception:
+        size = 0
+
+    ts = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]} {time_str[:2]}:{time_str[2:4]}:{time_str[4:6]}"
+    return {
+        "filename": filename,
+        "cam_id": cam_id,
+        "category": category,
+        "confidence": confidence,
+        "date": date_str,
+        "time": time_str,
+        "timestamp": ts,
+        "size": size,
+    }
+
+
+@app.route("/api/captures")
+def api_captures():
+    """List all saved failure captures with metadata."""
+    ensure_captures_dir()
+    captures = []
+    try:
+        files = sorted(
+            [f for f in os.listdir(CAPTURES_DIR) if f.endswith(".jpg")],
+            key=lambda f: os.path.getmtime(os.path.join(CAPTURES_DIR, f)),
+            reverse=True,
+        )
+        for f in files:
+            meta = _parse_capture_meta(f)
+            if meta:
+                captures.append(meta)
+    except Exception as e:
+        logging.error(f"Error listing captures: {e}")
+    return jsonify({"captures": captures})
+
+
+@app.route("/api/captures/clear", methods=["POST"])
+def api_captures_clear():
+    """Delete all saved captures."""
+    ensure_captures_dir()
+    count = 0
+    try:
+        for f in os.listdir(CAPTURES_DIR):
+            if f.endswith(".jpg"):
+                try:
+                    os.remove(os.path.join(CAPTURES_DIR, f))
+                    count += 1
+                except Exception:
+                    pass
+        logging.info(f"Cleared {count} captures")
+    except Exception as e:
+        logging.error(f"Error clearing captures: {e}")
+    return jsonify({"success": True, "deleted": count})
+
+
+@app.route("/api/captures/<filename>")
+def api_captures_file(filename):
+    """Serve a capture image file."""
+    if not re.match(r"^[\w\-]+\.jpg$", filename):
+        return jsonify({"error": "Invalid filename"}), 400
+    return send_from_directory(CAPTURES_DIR, filename)
 
 # ================================================================
 #   RUN SERVER

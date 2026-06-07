@@ -12,29 +12,51 @@ SERVICE_NAME="klipper-print-failure-detection"
 echo "Detected User: $KLIPPER_USER"
 echo "Installation Directory: $PLUGIN_DIR"
 
-# --- 2. Install System Dependencies ---
-echo "Installing system libraries..."
-# libatlas-base-dev is required for numpy/tflite on Pi
-sudo apt-get update && sudo apt-get install -y python3-opencv python3-venv libopenjp2-7 libopenblas-dev
+# --- 2. Detect Python 3.11 for tflite-runtime compatibility ---
+PYTHON_BIN="python3"
+PYTHON_VERSION=$(python3 --version 2>&1 | grep -oP '\d+\.\d+')
 
-# --- 3. Create Virtual Environment ---
-if [ ! -d "$PLUGIN_DIR/venv" ]; then
-    echo "Creating Python virtual environment..."
-    sudo -u "$KLIPPER_USER" python3 -m venv "$PLUGIN_DIR/venv"
+if [ "$PYTHON_VERSION" != "3.11" ]; then
+    echo "System Python is $PYTHON_VERSION — looking for Python 3.11 via pyenv..."
+    if command -v pyenv &>/dev/null; then
+        PYENV_ROOT=$(pyenv root 2>/dev/null || echo "$HOME/.pyenv")
+        PYTHON_311=$(ls "$PYENV_ROOT/versions/" 2>/dev/null | grep "^3\.11" | head -1)
+        if [ -n "$PYTHON_311" ]; then
+            PYTHON_BIN="$PYENV_ROOT/versions/$PYTHON_311/bin/python"
+            echo "Using Python $PYTHON_311 from pyenv"
+        else
+            echo "ERROR: Python 3.11 not found in pyenv versions."
+            echo "Install it first: pyenv install 3.11.9"
+            exit 1
+        fi
+    else
+        echo "ERROR: pyenv not found and system Python is not 3.11."
+        echo "Install Python 3.11 first: pyenv install 3.11.9"
+        exit 1
+    fi
 fi
 
-# --- 4. Install Python Requirements ---
+# --- 3. Install System Dependencies ---
+echo "Installing system libraries..."
+sudo apt-get update && sudo apt-get install -y python3-opencv libopenjp2-7 libopenblas-dev
+
+# --- 4. Create Virtual Environment ---
+if [ ! -d "$PLUGIN_DIR/venv" ]; then
+    echo "Creating Python virtual environment with $PYTHON_BIN..."
+    sudo -u "$KLIPPER_USER" $PYTHON_BIN -m venv "$PLUGIN_DIR/venv"
+fi
+
+# --- 5. Install Python Requirements ---
 echo "------------------------------------------------"
 echo "INSTALLING TFLITE RUNTIME"
 echo "------------------------------------------------"
-# We use --no-cache-dir to save SD card space
 sudo -u "$KLIPPER_USER" "$PLUGIN_DIR/venv/bin/pip" install --no-cache-dir -r "$PLUGIN_DIR/requirements.txt"
 
-# --- 5. Permissions Fix ---
+# --- 6. Permissions Fix ---
 echo "Fixing permissions..."
 chown -R "$KLIPPER_USER":"$KLIPPER_USER" "$PLUGIN_DIR"
 
-# --- 6. Service Creation ---
+# --- 7. Service Creation ---
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 echo "Creating Systemd service..."
 
@@ -55,7 +77,7 @@ RestartSec=10
 WantedBy=multi-user.target
 EOF
 
-# --- 7. Enable Service ---
+# --- 8. Enable Service ---
 echo "Enabling service..."
 systemctl daemon-reload
 systemctl enable "$SERVICE_NAME".service
