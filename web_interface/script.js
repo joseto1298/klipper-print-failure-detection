@@ -439,6 +439,15 @@ const historyBody = document.getElementById("history-table-body");
 const historyScroll = document.getElementById("history-scroll");
 const clearHistoryBtn = document.getElementById("clear-history-btn");
 
+// Captures modal references
+const capturesModal = document.getElementById("captures-modal");
+const openCapturesBtn = document.getElementById("open-captures-btn");
+const closeCapturesBtn = document.getElementById("close-captures-modal");
+const capturesGrid = document.getElementById("captures-grid");
+const capturesEmpty = document.getElementById("captures-empty");
+const clearCapturesBtn = document.getElementById("clear-captures-btn");
+let lastCaptureCount = -1;
+
 // Camera references
 const cam1Img = document.getElementById("cam1-img");
 const cam2Img = document.getElementById("cam2-img");
@@ -1195,6 +1204,24 @@ async function loadSettings() {
     const sumNotifications = document.getElementById("notify_notifications");
     if (sumNotifications) {
       sumNotifications.checked = currentSettings.notify_notifications ?? true;
+    }
+
+    // Capture enabled toggle
+    const capEnabledEl = document.getElementById("capture_enabled");
+    if (capEnabledEl) {
+      capEnabledEl.checked = currentSettings.capture_enabled ?? true;
+    }
+
+    // Max captures
+    const maxCapEl = document.getElementById("capture_max_count");
+    if (maxCapEl) {
+      maxCapEl.value = currentSettings.capture_max_count ?? 100;
+    }
+
+    // Capture on mode
+    const capOnEl = document.getElementById("capture_on");
+    if (capOnEl) {
+      capOnEl.value = currentSettings.capture_on || "detection";
     }
 
     // Masks
@@ -2229,6 +2256,21 @@ document
       "notify_notifications"
     ).checked;
 
+    const capEnabledEl = document.getElementById("capture_enabled");
+    if (capEnabledEl) {
+      currentSettings.capture_enabled = capEnabledEl.checked;
+    }
+
+    const maxCapEl = document.getElementById("capture_max_count");
+    if (maxCapEl) {
+      currentSettings.capture_max_count = parseInt(maxCapEl.value) || 100;
+    }
+
+    const capOnEl = document.getElementById("capture_on");
+    if (capOnEl) {
+      currentSettings.capture_on = capOnEl.value;
+    }
+
     // AI Summary toggle
     currentSettings.send_summary =
       document.getElementById("send_summary").checked;
@@ -2704,6 +2746,119 @@ function renderFailureHistory() {
     historyBody.appendChild(row);
   });
 }
+
+/********************************************************************
+ * CAPTURES MODAL
+ ********************************************************************/
+
+if (openCapturesBtn && capturesModal) {
+  openCapturesBtn.addEventListener("click", () => {
+    capturesModal.showModal();
+    capturesModal.classList.add("show");
+    mainContent.classList.add("blurred");
+    fetchCaptures();
+  });
+}
+
+if (closeCapturesBtn && capturesModal) {
+  closeCapturesBtn.addEventListener("click", () => {
+    capturesModal.classList.remove("show");
+    capturesModal.close();
+    mainContent.classList.remove("blurred");
+  });
+}
+
+capturesModal.addEventListener("cancel", (e) => {
+  e.preventDefault();
+  capturesModal.classList.remove("show");
+  capturesModal.close();
+  mainContent.classList.remove("blurred");
+});
+
+async function fetchCaptures() {
+  try {
+    const res = await fetch("/api/captures");
+    if (!res.ok) return;
+    const data = await res.json();
+    const captures = data.captures || [];
+
+    if (captures.length !== lastCaptureCount || captures.length === 0) {
+      lastCaptureCount = captures.length;
+      renderCaptures(captures);
+    }
+  } catch (e) {}
+}
+
+function renderCaptures(captures) {
+  if (!capturesGrid || !capturesEmpty) return;
+
+  capturesGrid.innerHTML = "";
+
+  if (captures.length === 0) {
+    capturesGrid.classList.add("hidden");
+    capturesEmpty.classList.remove("hidden");
+    return;
+  }
+
+  capturesGrid.classList.remove("hidden");
+  capturesEmpty.classList.add("hidden");
+
+  captures.forEach((cap) => {
+    const card = document.createElement("div");
+    card.className = "capture-card";
+
+    const img = document.createElement("img");
+    img.className = "capture-thumb";
+    img.src = `/api/captures/${cap.filename}?t=${Date.now()}`;
+    img.alt = cap.filename;
+    img.loading = "lazy";
+    img.addEventListener("click", () => {
+      window.open(`/api/captures/${cap.filename}`, "_blank");
+    });
+    img.title = t("captures.viewFull", "View full image");
+
+    const meta = document.createElement("div");
+    meta.className = "capture-meta";
+
+    const camLabel =
+      cap.cam_id === 0
+        ? t("camera.primaryShort", "Primary")
+        : cap.cam_id === 1
+        ? t("camera.secondaryShort", "Secondary")
+        : `Cam ${cap.cam_id}`;
+
+    const catLabel = cap.category.charAt(0).toUpperCase() + cap.category.slice(1);
+
+    meta.innerHTML = `
+      <span class="capture-meta-line"><span class="capture-meta-label">${t("captures.camera", "Camera:")}</span> ${camLabel}</span>
+      <span class="capture-meta-line"><span class="capture-meta-label">${t("captures.category", "Category:")}</span> ${catLabel}</span>
+      <span class="capture-meta-line"><span class="capture-meta-label">${t("captures.confidence", "Confidence:")}</span> ${cap.confidence}%</span>
+      <span class="capture-meta-line capture-meta-date">${cap.timestamp}</span>
+    `;
+
+    card.appendChild(img);
+    card.appendChild(meta);
+    capturesGrid.appendChild(card);
+  });
+}
+
+if (clearCapturesBtn) {
+  clearCapturesBtn.addEventListener("click", async () => {
+    if (!confirm(t("captures.clearAllConfirm", "Clear all captures? This cannot be undone."))) return;
+    try {
+      await fetch("/api/captures/clear", { method: "POST" });
+      lastCaptureCount = 0;
+      renderCaptures([]);
+    } catch (e) {}
+  });
+}
+
+// Poll captures when modal is open
+setInterval(() => {
+  if (capturesModal && capturesModal.open) {
+    fetchCaptures();
+  }
+}, 3000);
 
 /********************************************************************
  * LOGS MODAL

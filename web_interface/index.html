@@ -116,6 +116,7 @@
                 </div>
 
                 <div class="controls-right">
+                    <button id="open-captures-btn" class="secondary-btn" data-i18n="buttons.captures">Captures</button>
                     <button id="open-history-btn" class="secondary-btn" data-i18n="buttons.history">History</button>
                     <button id="open-logs-btn" class="secondary-btn" data-i18n="buttons.logs">Logs ▾</button>
                 </div>
@@ -566,6 +567,38 @@
                         
                     </div>
 
+                    <!-- CAPTURES -->
+                    <div class="setting-group">
+                        <h4 data-i18n="settings.capturesTitle">Captures</h4>
+                        <div class="setting-row toggle-row">
+                            <label data-i18n="settings.captureEnabled">Save Captures:</label>
+                            <div class="toggle-switch toggle-only">
+                                <input type="checkbox" id="capture_enabled">
+                                <label class="slider" for="capture_enabled"></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <label data-i18n="settings.captureMaxCount">Max Captures:</label>
+                            <input type="number" id="capture_max_count" min="10" max="1000" step="10">
+                        </div>
+                        <div class="help-tooltip">
+                            <span class="help-icon">?</span>
+                            <div class="help-tooltip-text help-tooltip-bottom" data-i18n="settings.captureMaxCountHelp">Maximum number of annotated capture images saved to disk. Oldest are deleted automatically when limit is exceeded.</div>
+                        </div>
+                        <div class="setting-row">
+                            <label data-i18n="settings.captureOn">Save On:</label>
+                            <select id="capture_on">
+                                <option value="detection" data-i18n="captureOn.detection">Detection Threshold</option>
+                                <option value="trigger" data-i18n="captureOn.trigger">Trigger Threshold</option>
+                                <option value="both" data-i18n="captureOn.both">Detection & Trigger</option>
+                            </select>
+                        </div>
+                        <div class="help-tooltip">
+                            <span class="help-icon">?</span>
+                            <div class="help-tooltip-text help-tooltip-bottom" data-i18n="settings.captureOnHelp">Choose when to save annotated captures: Detection (any detection exceeding threshold), Trigger (only on failure trigger), or Both.</div>
+                        </div>
+                    </div>
+
                     <!-- AI CATEGORY BUTTON CARD -->
                     <div class="setting-group">
                         <h4 data-i18n="settings.aiCategoriesTitle">AI Categories</h4>
@@ -839,6 +872,21 @@
         </div>
         <div class="modal-footer">
             <button id="download-logs-btn" class="primary-btn" data-i18n="buttons.download">Download</button>
+        </div>
+    </dialog>
+
+    <!-- Captures modal -->
+    <dialog id="captures-modal" class="modal captures-modal">
+        <div class="modal-header">
+            <h3 data-i18n="captures.title">Failure Captures</h3>
+            <button id="close-captures-modal" class="icon-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="captures-grid" class="captures-grid"></div>
+            <div id="captures-empty" class="captures-empty hidden" data-i18n="captures.empty">No captures saved</div>
+        </div>
+        <div class="modal-footer">
+            <button id="clear-captures-btn" class="secondary-btn" data-i18n="buttons.clearAllCaptures">Clear All Captures</button>
         </div>
     </dialog>
 
