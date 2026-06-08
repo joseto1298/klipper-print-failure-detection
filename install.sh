@@ -14,7 +14,7 @@ echo "Installation Directory: $PLUGIN_DIR"
 
 # --- 2. Detect Python 3.11 for tflite-runtime compatibility ---
 PYTHON_BIN="python3"
-PYTHON_VERSION=$(python3 --version 2>&1 | grep -oP '\d+\.\d+')
+PYTHON_VERSION=$("$PYTHON_BIN" -c 'import sys; print("%d.%d" % sys.version_info[:2])' 2>/dev/null)
 
 if [ "$PYTHON_VERSION" != "3.11" ]; then
     echo "System Python is $PYTHON_VERSION — looking for Python 3.11 via pyenv..."

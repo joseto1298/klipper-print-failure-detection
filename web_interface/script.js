@@ -2768,12 +2768,14 @@ if (closeCapturesBtn && capturesModal) {
   });
 }
 
-capturesModal.addEventListener("cancel", (e) => {
-  e.preventDefault();
-  capturesModal.classList.remove("show");
-  capturesModal.close();
-  mainContent.classList.remove("blurred");
-});
+if (capturesModal) {
+  capturesModal.addEventListener("cancel", (e) => {
+    e.preventDefault();
+    capturesModal.classList.remove("show");
+    capturesModal.close();
+    mainContent.classList.remove("blurred");
+  });
+}
 
 async function fetchCaptures() {
   try {
@@ -2829,12 +2831,25 @@ function renderCaptures(captures) {
 
     const catLabel = cap.category.charAt(0).toUpperCase() + cap.category.slice(1);
 
-    meta.innerHTML = `
-      <span class="capture-meta-line"><span class="capture-meta-label">${t("captures.camera", "Camera:")}</span> ${camLabel}</span>
-      <span class="capture-meta-line"><span class="capture-meta-label">${t("captures.category", "Category:")}</span> ${catLabel}</span>
-      <span class="capture-meta-line"><span class="capture-meta-label">${t("captures.confidence", "Confidence:")}</span> ${cap.confidence}%</span>
-      <span class="capture-meta-line capture-meta-date">${cap.timestamp}</span>
-    `;
+    function makeLine(label, value) {
+      const line = document.createElement("span");
+      line.className = "capture-meta-line";
+      const lbl = document.createElement("span");
+      lbl.className = "capture-meta-label";
+      lbl.textContent = label;
+      line.appendChild(lbl);
+      line.appendChild(document.createTextNode(" " + value));
+      return line;
+    }
+
+    meta.appendChild(makeLine(t("captures.camera", "Camera:"), camLabel));
+    meta.appendChild(makeLine(t("captures.category", "Category:"), catLabel));
+    meta.appendChild(makeLine(t("captures.confidence", "Confidence:"), cap.confidence + "%"));
+
+    const dateLine = document.createElement("span");
+    dateLine.className = "capture-meta-line capture-meta-date";
+    dateLine.textContent = cap.timestamp;
+    meta.appendChild(dateLine);
 
     card.appendChild(img);
     card.appendChild(meta);
