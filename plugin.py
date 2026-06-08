@@ -1112,16 +1112,18 @@ def background_monitor():
 
                     # Save capture based on configured capture_on mode
                     capture_on = config.get("capture_on", "detection")
-                    should_capture = (
+                    has_detection = (
                         do_infer and history_best_category and len(filtered_dets) > 0
                     )
-                    if should_capture:
+                    if has_detection:
                         if capture_on == "detection":
                             save_capture(cam_id, debug, history_best_category, history_best_conf)
                         elif capture_on == "trigger" and history_is_trigger:
                             save_capture(cam_id, debug, history_best_category, history_best_conf)
                         elif capture_on == "both":
                             save_capture(cam_id, debug, history_best_category, history_best_conf)
+                    elif capture_on == "both" and history_is_trigger:
+                        save_capture(cam_id, debug, history_best_category, history_best_conf)
 
                 except Exception as e:
                     # Only log errors AFTER the camera succeeded at least once
@@ -1460,6 +1462,7 @@ def api_captures_file(filename):
     """Serve a capture image file."""
     if not re.match(r"^[\w\-]+\.jpg$", filename):
         return jsonify({"error": "Invalid filename"}), 400
+    ensure_captures_dir()
     return send_from_directory(CAPTURES_DIR, filename)
 
 # ================================================================
